@@ -1,14 +1,12 @@
 <?php
 include "korisnikServis.php";
 include "broker.php";
-include "util.php";
-
 class Controller{
 
     private $korisnikServis;
 
     public function __construct(){
-        $korisnikServis=new KorisnikServis(Broker::getBroker());
+        $this->korisnikServis=new KorisnikServis(Broker::getBroker());
     }
 
     public function izvrsi(){
@@ -20,15 +18,15 @@ class Controller{
             }
             if($akcija=='kreirajKorisnika'){
                 $this->korisnikServis->kreiraj($_POST["ime"],$_POST["prezime"],$_POST["prosekPrimanja"],$_POST["period"]);
-                $this->vratiOdgovor();
+                return  $this->vratiOdgovor(null);
             }
             if($akcija=='izmeniKorisnika'){
                 $this->korisnikServis->izmeni($_POST['id'],$_POST["ime"],$_POST["prezime"],$_POST["prosekPrimanja"],$_POST["period"]);
-                $this->vratiOdgovor();
+                return $this->vratiOdgovor(null);
             }
             if($akcija=='obrisiKorisnika'){
                 $this->korisnikServis->obrisi($_POST['id']);
-                $this->vratiOdgovor();
+                return $this->vratiOdgovor(null);
             }
             return json_encode($this->vratiGresku("Metoda nije podrzana"));
         } catch (Exception $ex) {
