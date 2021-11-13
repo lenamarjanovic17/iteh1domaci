@@ -1,12 +1,15 @@
 <?php
 include "korisnikServis.php";
 include "broker.php";
+include "kreditServis.php";
 class Controller{
 
     private $korisnikServis;
+    private $kreditServis;
 
     public function __construct(){
         $this->korisnikServis=new KorisnikServis(Broker::getBroker());
+        $this->kreditServis=new KreditServis(Broker::getBroker());
     }
 
     public function izvrsi(){
@@ -15,6 +18,9 @@ class Controller{
            
             if($akcija=="vratiKorisnike"){
                 return $this->vratiOdgovor($this->korisnikServis->vratiSve());
+            }
+            if($akcija=="vratiKredite"){
+                return $this->vratiOdgovor($this->kreditServis->vratiSve());
             }
             if($akcija=='kreirajKorisnika'){
                 $this->korisnikServis->kreiraj($_POST["ime"],$_POST["prezime"],$_POST["prosekPrimanja"],$_POST["period"]);
