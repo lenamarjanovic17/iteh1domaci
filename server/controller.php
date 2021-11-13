@@ -2,14 +2,17 @@
 include "korisnikServis.php";
 include "broker.php";
 include "kreditServis.php";
+include "zahtevServis.php";
 class Controller{
 
     private $korisnikServis;
+    private $zahtevServis;
     private $kreditServis;
 
     public function __construct(){
         $this->korisnikServis=new KorisnikServis(Broker::getBroker());
         $this->kreditServis=new KreditServis(Broker::getBroker());
+        $this->zahtevServis=new ZahtevServis(Broker::getBroker());
     }
 
     public function izvrsi(){
@@ -22,8 +25,15 @@ class Controller{
             if($akcija=="vratiKredite"){
                 return $this->vratiOdgovor($this->kreditServis->vratiSve());
             }
+            if($akcija=="vratiZahteve"){
+                return $this->vratiOdgovor($this->zahtevServis->vratiSve());
+            }
             if($akcija=='kreirajKorisnika'){
                 $this->korisnikServis->kreiraj($_POST["ime"],$_POST["prezime"],$_POST["prosekPrimanja"],$_POST["period"]);
+                return  $this->vratiOdgovor(null);
+            }
+            if($akcija=='kreirajZahtev'){
+                $this->zahtevServis->kreiraj($_POST["kredit"],$_POST["korisnik"],$_POST["iznos"],$_POST["period"]);
                 return  $this->vratiOdgovor(null);
             }
             if($akcija=='izmeniKorisnika'){
@@ -34,9 +44,9 @@ class Controller{
                 $this->korisnikServis->obrisi($_POST['id']);
                 return $this->vratiOdgovor(null);
             }
-            return json_encode($this->vratiGresku("Metoda nije podrzana"));
+            return $this->vratiGresku("Metoda nije podrzana");
         } catch (Exception $ex) {
-            return json_encode($this->vratiGresku($ex->getMessage()));
+            return $this->vratiGresku($ex->getMessage());
         }
     }
      private function vratiOdgovor($podaci){
