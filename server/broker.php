@@ -29,7 +29,7 @@ class Broker{
             while($red=$rezultat->fetch_object()){
                 $rez[]=$red;
             }
-            return $rez;
+        return $rez;
     }
     function izvrsiIzmenu($upit){
         $rezultat=$this->mysqli->query($upit);

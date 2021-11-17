@@ -31,7 +31,6 @@
                 alert(res.error);
                 return;
             }
-            $('#krediti').html('');
             for (let kredit of res.data) {
                 $('#krediti').append(`
                 <tr>

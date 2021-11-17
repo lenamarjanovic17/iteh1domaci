@@ -91,10 +91,10 @@
     function popuniPodatke() {
         const pretraga = $('#pretraga').val();
         const filtrirano = zahtevi.filter(function (zahtev) {
-            return zahtev.ime.toLowerCase().includes(pretraga) ||
-                zahtev.prezime.toLowerCase().includes(pretraga) ||
-                zahtev.naziv_kredita.toLowerCase().includes(pretraga) ||
-                zahtev.status.toLowerCase().includes(pretraga)
+            return zahtev.ime.toLowerCase().includes(pretraga.toLowerCase()) ||
+                zahtev.prezime.toLowerCase().includes(pretraga.toLowerCase()) ||
+                zahtev.naziv_kredita.toLowerCase().includes(pretraga.toLowerCase()) ||
+                zahtev.status.toLowerCase().includes(pretraga.toLowerCase())
         });
         $('#zahtevi').html('');
         for (let zahtev of filtrirano) {
@@ -119,7 +119,6 @@
                 alert(res.error);
                 return;
             }
-            $('#kredit').html('');
             for (let kr of res.data) {
                 $('#kredit').append(`
                   <option value='${kr.id}'>
@@ -135,7 +134,6 @@
                 alert(res.error);
                 return;
             }
-            $('#korisnik').html('');
             for (let korisnik of res.data) {
                 $('#korisnik').append(`
                     <option value='${korisnik.id}'>${korisnik.ime + ' ' + korisnik.prezime}</option>
